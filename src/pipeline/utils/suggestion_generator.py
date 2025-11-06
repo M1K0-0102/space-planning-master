@@ -24,9 +24,10 @@ TIMEOUT_CONFIG = {
     'read': 120      # 读取超时增加到120秒
 }
 
-os.environ["DEEPSEEK_API_KEY"] = "sk-8b6cf247079845249e404f8bd41d348f"
-
-print("当前设置的API密钥:", os.getenv("DEEPSEEK_API_KEY"))
+# API Key 应该通过环境变量或 .env 文件配置，不要硬编码在代码中
+# 使用方法：
+# 1. 创建 .env 文件：DEEPSEEK_API_KEY=your-api-key-here
+# 2. 或设置环境变量：export DEEPSEEK_API_KEY=your-api-key-here
 
 class SuggestionGenerator:
     """建议生成器 - 优先使用DeepSeek API生成建议，失败时降级到本地生成器"""
