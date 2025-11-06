@@ -1,0 +1,12 @@
+# 此文件用于保持 pretrained_models 目录在 Git 中被追踪
+# 请将预训练模型文件放置在此目录下：
+#
+# 需要的模型文件：
+# - resnet50_places365.pth (场景识别)
+# - yolov8n.pt (家具检测)
+# - pre_efficientnetv2-m.pth (风格识别)
+# - places365_zh.txt (场景分类标签)
+#
+# 注意：模型文件较大，已在 .gitignore 中排除
+# 请参考 DEPLOYMENT.md 中的模型下载指南
+

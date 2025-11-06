@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 虚拟环境
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 输出文件
+output/
+*.log
+
+# 预训练模型（太大，不上传到Git）
+pretrained_models/*.pth
+pretrained_models/*.pt
+pretrained_models/*.onnx
+pretrained_models/*.h5
+pretrained_models/*.pb
+# 保留模型配置文件
+!pretrained_models/.gitkeep
+!pretrained_models/places365_zh.txt
+
+# 测试覆盖率
+.coverage
+.pytest_cache/
+htmlcov/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+

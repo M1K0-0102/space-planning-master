@@ -1,0 +1,83 @@
+# 模型目录配置
+model_dir: pretrained_models
+
+# 分析器配置
+analyzers:
+  # 场景分析器配置
+  scene:
+    model_path: pretrained_models/resnet50_places365.pth
+    categories_path: pretrained_models/places365_zh.txt
+    confidence_threshold: 0.3
+    input_size: [224, 224]
+    device: cpu
+    batch_size: 1
+
+  # 家具检测器配置
+  furniture:
+    model_type: yolov8
+    model_path: pretrained_models/yolov8n.pt
+    confidence_threshold: 0.25
+    device: cpu
+    furniture_classes: ['椅子', '沙发', '盆栽', '床', '餐桌', '马桶', '电视', '笔记本电脑', 
+                       '鼠标', '遥控器', '键盘', '手机', '微波炉', '烤箱', '水槽', '冰箱']
+    categories_mapping:  # 添加类别映射配置
+      '椅子': 0
+      '沙发': 1
+      '盆栽': 2
+      '床': 3
+      '餐桌': 4
+      '马桶': 5
+      '电视': 6
+      '笔记本电脑': 7
+      '鼠标': 8
+      '遥控器': 9
+      '键盘': 10
+      '手机': 11
+      '微波炉': 12
+      '烤箱': 13
+      '水槽': 14
+      '冰箱': 15
+
+  # 光照分析器配置
+  lighting:
+    type: traditional
+    thresholds:
+      brightness: 0.15
+      uniformity: 0.4
+      contrast: 0.1
+    confidence_threshold: 0.4
+
+  # 颜色分析器配置
+  color:
+    type: traditional
+    num_colors: 5
+    confidence_threshold: 0.3
+
+  # 风格分析器配置
+  style:
+    model_type: tf_efficientnetv2_m
+    model_path: pretrained_models/pre_efficientnetv2-m.pth
+    input_size: [384, 384]
+    confidence_threshold: 0.3
+    device: cpu
+    fallback_to_pretrained: true
+
+# 全局默认配置
+defaults:
+  device: "cpu"
+  batch_size: 1
+  num_workers: 4
+  use_fp16: false
+
+# 处理器相关配置
+processors:
+  image:
+    input_size: [640, 480]
+    batch_size: 1
+    num_workers: 4
+  video:
+    sample_interval: 10  # 每10帧采样一次
+    target_size: [640, 480]
+  realtime:
+    fps: 30
+    buffer_size: 5

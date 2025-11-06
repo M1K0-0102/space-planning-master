@@ -1,0 +1,156 @@
+空间规划大师 - 项目结构说明
+=======================
+
+项目概述
+-------
+基于计算机视觉的室内空间智能分析系统，提供场景识别、家具检测、光照分析、风格分析和色彩分析等功能。
+
+目录结构
+-------
+.
+├── docs/                       
+│   ├── api_integration_guide.md
+│   ├── project_structure.txt
+├── output/                      # 输出目录，存放分析结果
+├── pretrained_models/                     # 模型文件目录，存放训练好的模型文件
+│   ├── resnet50_places365.pth      #场景分析器模型 
+│   ├── places365.txt               #场景分析器映射 
+│   ├── pre_efficientnetv2-m.pth    #风格分析器模型
+│   └── yolov8n.pt                 #家具检测器模型
+├── src/                        # 源代码目录
+│   ├── config/                 # 配置文件目录
+│   │   └── model_config.yaml   # 模型配置文件
+│   └── pipeline/              # 核心处理管道
+│       ├── analyzers/         # 分析器模块
+│       │   ├── __init__.py
+│       │   ├── base_analyzer.py    # 分析器基类
+│       │   ├── scene_analyzer.py   # 场景分析器
+│       │   ├── lighting_analyzer.py # 光照分析器
+│       │   ├── color_analyzer.py   # 颜色分析器
+│       │   ├── style_analyzer.py   # 风格分析器
+│       │   └── furniture_detector.py # 家具检测器
+│       ├── processors/        # 处理器模块
+│       │   ├── __init__.py
+│       │   ├── base_processor.py   # 处理器基类
+│       │   ├── image_processor.py  # 图像处理器
+│       │   ├── video_processor.py  # 视频处理器
+│       │   └── realtime_processor.py # 实时处理器
+│       ├── strategies/        # 分析策略模块
+│       │   ├── __init__.py
+│       │   ├── base_strategy.py    # 策略基类
+│       │   ├── comprehensive_strategy.py # 综合分析策略
+│       │   ├── realtime_strategy.py # 实时分析策略
+│       │   └── single_analysis_strategy.py # 单项分析策略
+│       ├── utils/             # 工具类模块
+│       │   ├── __init__.py
+│       │   ├── error_handler.py    # 错误处理
+│       │   ├── feature_extractors.py # 特征提取器
+│       │   ├── model_config.py     # 模型配置管理
+│       │   ├── output_manager.py   # 输出管理
+│       │   ├── result_collector.py # 结果收集器
+│       │   ├── result_processor.py # 结果处理器
+│       │   ├── result_formatter.py # 结果格式化器
+│       │   ├── result_types.py     # 结果类型定义
+│       │   ├── suggestion_formatter.py # 建议格式化
+│       │   └── suggestion_generator.py # 建议生成器
+│       ├── validators/        # 验证器模块
+│       │   ├── __init__.py
+│       │   ├── data_validator.py   # 数据验证器
+│       │   └── input_validator.py  # 输入验证器
+│       ├── visualization/     # 可视化模块
+│       │   ├── __init__.py
+│       │   ├── visualization_coordinator.py # 可视化协调器
+│       │   └── visualizer.py      # 可视化器
+│       ├── __init__.py
+│       ├── interior_design_pipeline.py # 主管道类
+│       └── pipeline_coordinator.py # 管道协调器
+└── tests/                     # 测试目录
+    ├── __init__.py
+    └── visual_test.py        # 系统功能测试
+
+核心组件说明
+----------
+1. 分析器 (Analyzers)
+   - BaseAnalyzer: 所有分析器的基类，定义通用接口和功能
+   - SceneAnalyzer: 场景分析，识别室内场景类型
+   - FurnitureDetector: 家具检测，检测和识别家具
+   - LightingAnalyzer: 光照分析，分析光照条件
+   - StyleAnalyzer: 风格分析，识别装修风格
+   - ColorAnalyzer: 颜色分析，分析色彩搭配
+
+2. 处理器 (Processors)
+   - BaseProcessor: 处理器基类，定义通用接口
+   - ImageProcessor: 处理静态图片输入
+   - VideoProcessor: 处理视频流输入
+   - RealtimeProcessor: 处理实时摄像头输入
+
+3. 策略 (Strategies)
+   - BaseStrategy: 策略基类
+   - ComprehensiveStrategy: 综合分析策略，使用所有分析器
+   - SingleAnalysisStrategy: 单项分析策略，使用单个分析器
+   - RealtimeStrategy: 实时分析策略，用于实时处理
+
+4. 工具类 (Utils)
+   - ResultTypes: 定义统一的结果数据结构
+   - ResultCollector: 收集和管理分析结果
+   - ResultProcessor: 处理和整合分析结果
+   - ResultFormatter: 格式化分析结果的展示形式
+   - SuggestionGenerator: 生成分析建议
+   - SuggestionFormatter: 格式化建议输出
+   - ModelConfig: 管理模型配置
+   - ErrorHandler: 统一错误处理
+   - FeatureExtractors: 特征提取工具
+   - OutputManager: 管理输出格式和存储
+
+5. 验证器 (Validators)
+   - InputValidator: 验证输入数据的有效性
+   - DataValidator: 验证处理过程中的数据
+
+6. 可视化 (Visualization)
+   - Visualizer: 负责渲染分析结果
+   - VisualizationCoordinator: 协调不同类型的可视化
+
+7. 协调器 (Coordinators)
+   - PipelineCoordinator: 协调整个分析流程
+   - InteriorDesignPipeline: 主管道类，管理整体处理流程
+
+数据流向
+-------
+1. 输入数据流:
+   输入 -> InputValidator -> Processor -> Strategy -> Analyzer
+
+2. 结果处理流:
+   Analyzer -> ResultCollector -> ResultProcessor -> SuggestionGenerator 
+   -> (ResultFormatter, SuggestionFormatter) -> OutputManager
+
+设计模式
+-------
+- 策略模式: 用于切换不同的分析策略
+- 单例模式: 用于ModelConfig等全局配置
+- 工厂模式: 创建分析器和处理器实例
+- 观察者模式: 用于实时处理的事件通知
+- 装饰器模式: 用于扩展分析器功能
+
+依赖说明
+-------
+- PyTorch: 深度学习框架，用于构建和训练神经网络模型
+- OpenCV: 计算机视觉处理库，用于图像和视频处理
+- NumPy: 数值计算库，提供多维数组对象和各种数学函数
+- scikit-learn: 机器学习工具库，用于数据挖掘和数据分析
+- YOLOv5: 目标检测模型，用于检测和识别图像中的物体
+- EfficientNet: 图像分类模型，用于场景识别和分析
+
+工作流程：
+graph TD
+    A[图片/视频输入] --> B[InputValidator验证]
+    B --> C[VideoProcessor/ImageProcessor处理]
+    C --> D[选择分析策略]
+    D --> E1[ComprehensiveStrategy]
+    D --> E2[SingleAnalysisStrategy]
+    E1 --> F1[使用所有分析器]
+    E2 --> F2[选择单个分析器]
+    F1 & F2 --> G[ResultCollector收集]
+    G --> H[ResultProcessor处理]
+    H --> I[SuggestionGenerator生成建议]
+    I --> J[OutputManager输出管理]
+    J --> K[格式化输出]
